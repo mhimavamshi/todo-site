@@ -1,7 +1,6 @@
 
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
-from sqlalchemy.orm import sessionmaker
-from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker, declarative_base
 
 import os
 from dotenv import load_dotenv
@@ -11,7 +10,7 @@ load_dotenv()
 DATABASE_URL = os.getenv("DATABASE_URL")
 
 if not DATABASE_URL:
-    raise ValueError("DATABASE_URL environment variable is not set:\n   Set it up in .env file.")
+    raise ValueError('DATABASE_URL environment variable is not set:\n   Set it up in .env file.\n DATABASE_URL="sqlite+aiosqlite:///./test.db"')
 
 engine = create_async_engine(DATABASE_URL, echo=True)
 
