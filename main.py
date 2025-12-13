@@ -4,21 +4,23 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 
 from database import init_db
+from utils import logger
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
 
-    print("Application starting up...")
-    print("Initializing database...")
+    logger.info("Application starting up...")
+
+    logger.info("Initializing database...")
     await init_db()
 
     yield
 
-    print("Application shutting down...")
+    logger.info("Application shutting down...")
 
 app = FastAPI(lifespan=lifespan)
 
-@app.get("/up")
+@app.get("/status")
 def read_root():
     return "online"
 
