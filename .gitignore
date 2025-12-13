@@ -1,0 +1,55 @@
+# Python bytecode files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment directories
+venv/
+env/
+.venv/
+ENV/
+.env/
+
+# FastAPI-related configurations
+# (FastAPI doesn't usually generate specific files, but this is general for Python apps)
+*.log
+
+# Type checking (e.g., from mypy or pytypes)
+.mypy_cache/
+.pyre/
+.typing/
+
+# IDE/editor files
+.vscode/
+.idea/
+
+# OS-specific files
+.DS_Store  # macOS
+Thumbs.db  # Windows
+
+# Build and distribution files
+build/
+dist/
+.eggs/
+*.egg-info/
+*.egg
+pip-wheel-metadata/
+
+# Testing
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+*.hypothesis/
+.coverage
+*.log
+
+# Docker related
+.docker/
+
+# Jupyter Notebooks
+.ipynb_checkpoints/
+
+# FastAPI app-specific configurations
+# (add any files you might generate for custom API docs or configurations, for example)
+*.sqlite3  # If using SQLite database
