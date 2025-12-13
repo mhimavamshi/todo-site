@@ -63,3 +63,6 @@ notes.md
 
 # dot env file
 .env
+
+# test database
+test.db
