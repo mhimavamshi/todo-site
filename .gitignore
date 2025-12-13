@@ -54,6 +54,6 @@ coverage.xml
 # (add any files you might generate for custom API docs or configurations, for example)
 *.sqlite3  # If using SQLite database
 
-# Images (architecture diagrams and such)
+# Images (architecture diagrams, screens and such)
 *.jpg
 *.png
