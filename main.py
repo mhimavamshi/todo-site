@@ -6,6 +6,8 @@ from fastapi import FastAPI
 from database import init_db
 from utils import logger
 
+from api.v1.router import router
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
 
@@ -19,6 +21,8 @@ async def lifespan(app: FastAPI):
     logger.info("Application shutting down...")
 
 app = FastAPI(lifespan=lifespan)
+
+app.include_router(router)
 
 @app.get("/status")
 def read_root():
