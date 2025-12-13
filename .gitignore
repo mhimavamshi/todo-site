@@ -57,3 +57,6 @@ coverage.xml
 # Images (architecture diagrams, screens and such)
 *.jpg
 *.png
+
+# Personal notes
+notes.md
