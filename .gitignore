@@ -60,3 +60,6 @@ coverage.xml
 
 # Personal notes
 notes.md
+
+# dot env file
+.env
