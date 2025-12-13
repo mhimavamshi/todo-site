@@ -53,3 +53,7 @@ coverage.xml
 # FastAPI app-specific configurations
 # (add any files you might generate for custom API docs or configurations, for example)
 *.sqlite3  # If using SQLite database
+
+# Images (architecture diagrams and such)
+*.jpg
+*.png
