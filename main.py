@@ -25,7 +25,7 @@ app = FastAPI(lifespan=lifespan)
 app.include_router(router)
 
 @app.get("/status")
-def read_root():
+def status():
     return "online"
 
 if __name__ == "__main__":
