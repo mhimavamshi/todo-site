@@ -51,7 +51,7 @@ async def delete_project(id, db_session: AsyncSession):
     if not project:
         raise ValueError(f"Project {id} not found")
 
-    db_session.delete(project)
+    await db_session.delete(project)
     await db_session.commit()
 
     return True
