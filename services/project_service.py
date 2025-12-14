@@ -42,3 +42,16 @@ async def get_project(id, db_session: AsyncSession):
         raise ValueError(f"Project {id} not found")
 
     return project
+
+
+async def delete_project(id, db_session: AsyncSession):
+    query = select(Project).where(Project.id == id)
+    project = await db_session.scalar(query)
+
+    if not project:
+        raise ValueError(f"Project {id} not found")
+
+    db_session.delete(project)
+    await db_session.commit()
+
+    return True

@@ -12,6 +12,7 @@ from services.project_service import (
     update_project,
     get_projects,
     get_project,
+    delete_project,
 )
 
 router = APIRouter()
@@ -55,5 +56,14 @@ async def get(id, db_session: AsyncSession = Depends(get_session)):
     try:
         projects = await get_project(id, db_session)
         return projects
+    except ValueError as e:
+        raise HTTPException(500, str(e))
+
+
+@router.delete("/{id}")
+async def delete(id, db_session: AsyncSession = Depends(get_session)):
+    try:
+        response = await delete_project(id, db_session)
+        return response
     except ValueError as e:
         raise HTTPException(500, str(e))
