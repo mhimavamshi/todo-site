@@ -1,4 +1,4 @@
-
+from sqlalchemy import text
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from sqlalchemy.orm import sessionmaker, declarative_base
 
@@ -20,9 +20,18 @@ AsyncSessionLocal = sessionmaker(
 
 Base = declarative_base()
 
-async def get_session() -> AsyncSession:
-    async with AsyncSessionLocal() as session:
+async def enable_foreign_keys():
+    async with engine.connect() as conn:
+        await conn.execute(text("PRAGMA foreign_keys = ON"))
+        await conn.commit()
+
+async def get_session():
+    session = AsyncSessionLocal()
+    try:
+        await enable_foreign_keys()  
         yield session
+    finally:
+        await session.close()
 
 async def init_db():
     async with engine.begin() as conn:
