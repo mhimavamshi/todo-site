@@ -25,13 +25,18 @@ async def enable_foreign_keys():
         await conn.execute(text("PRAGMA foreign_keys = ON"))
         await conn.commit()
 
-async def get_session():
-    session = AsyncSessionLocal()
-    try:
-        await enable_foreign_keys()  
+# async def get_session():
+#     session = AsyncSessionLocal()
+#     try:
+#         await enable_foreign_keys()  
+#         yield session
+#     finally:
+#         await session.close()
+
+async def get_session() -> AsyncSession:
+    await enable_foreign_keys()
+    async with AsyncSessionLocal() as session:
         yield session
-    finally:
-        await session.close()
 
 async def init_db():
     async with engine.begin() as conn:
