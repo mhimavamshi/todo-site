@@ -14,6 +14,7 @@ async def create_todo(project_id, data, db_session: AsyncSession):
     except exc.IntegrityError:
         raise ValueError("Invalid request")
 
+
 async def get_todos(project_id, db_session: AsyncSession):
     try:
         query = select(Todo).where(Todo.project_id == project_id)
@@ -22,7 +23,7 @@ async def get_todos(project_id, db_session: AsyncSession):
 
         if not todos:
             logger.info(f"Todos requested for invalid project {project_id}")
-        
+
         return todos
     except exc.IntegrityError:
         raise ValueError("Invalid request")

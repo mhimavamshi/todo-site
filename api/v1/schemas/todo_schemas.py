@@ -2,8 +2,10 @@ from pydantic import BaseModel, ConfigDict
 from datetime import datetime
 from database import TodoStatus
 
+
 class TodoRequest(BaseModel):
-    data: str 
+    data: str
+
 
 class TodoResponse(BaseModel):
     id: int
@@ -15,7 +17,8 @@ class TodoResponse(BaseModel):
 
     model_config = ConfigDict(from_orm=True)
 
+
 class UpdateTodoRequest(BaseModel):
-    id: int 
-    status: TodoStatus = None 
+    id: int
+    status: TodoStatus = None
     data: str = None
