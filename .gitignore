@@ -58,6 +58,9 @@ coverage.xml
 *.jpg
 *.png
 
+# Do not include static images
+!static/images/*.png 
+
 # Personal notes
 notes.md
 
