@@ -1,0 +1,50 @@
+<html>
+<head>
+    <title>Projects</title>
+</head>
+<body>
+    
+    <div>
+        <a href="/">Go Home</a>
+    </div>
+
+    <div class="search">
+        <img src="/images/search.png" alt="search button image" width="15" height="15">
+        <input type="text" placeholder="Search..." id="search_term"/>
+    </div>
+
+    <div class="projects">
+        <ul>
+            {% for project in projects %}
+                <li>
+                    <p><b>Title</b>: <a href=" {{ url_for('project', id=project.id) }} ">{{ project.title }}</a></p>
+                    <p><b>Notes</b>: {{ project.notes }}</p>
+                    <input type="button" value="Delete" id="delete_project_btn" project-id="{{ project.id }}">
+                    <input type="button" value="Update" id="update_project_btn" project-id="{{ project.id }}"> 
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+
+</body>
+<script type="module">
+    import { delete_project } from "/js/API.mjs";
+
+
+    document.querySelectorAll("#delete_project_btn").forEach(button => {
+        var project_id = button.getAttribute("project-id");
+        button.onclick = async () => {
+            let success = await delete_project(project_id);
+            if(success) {
+                window.location.reload();
+            } else {
+                alert("Delete failed! :(");
+            }
+        }
+    });
+
+
+
+</script>
+</html> 

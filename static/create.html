@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Project</title>
+</head>
+<body>
+    <div>
+        <a href="/">Go Home</a>
+    </div>
+    <form>
+        Title: <input type="text" name="title" id="project-title"><br>
+        Notes: <textarea name="notes" id="project-notes" placeholder="Enter notes..."></textarea><br>
+        <input type="button" value="Create" id="create_project_btn">
+    </form>
+</body>
+<script type="module">
+    import { create_project } from "/js/API.mjs";
+
+    var button = document.querySelector("#create_project_btn");
+    var title = document.querySelector("#project-title");
+    var notes = document.querySelector("#project-notes");
+
+
+    button.onclick = async () => {
+        try {
+            let data = get_data();
+            let project = await create_project(data);
+            window.location.replace("/project/"+project.id);
+        } catch (error) {
+            console.log(error.message);
+            alert("Creating project failed... :(");
+        }
+    }
+
+    function get_data() {
+        return {
+            "title": title.value,
+            "notes": notes.value
+        }
+    }
+
+</script>
+</html>

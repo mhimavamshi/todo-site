@@ -1,0 +1,35 @@
+<html>
+<head>
+    <title>Project - {{ project.title }}</title>
+</head>
+<body>
+    <div>
+        <a href="/">Go Home</a>
+    </div>
+
+    <div class="project">
+        <p><b><label for="title-{{ project.id }}">Title:</label></b></p>
+        <p name="title" id="title-{{ project.id }}" contenteditable="true">{{ project.title }}</p>
+        <p><b><label for="notes-{{ project.id }}">Notes:</label></b></p>
+        <!-- <textarea name="notes" id="notes-{{ project.id }}" rows="10" cols="50">{{ project.notes }}</textarea> -->
+        <p name="name" id="notes-{{ project.id }}" contenteditable="true">{{ project.notes }}</p>
+        <div class="todos">
+            {% for todo in todos %}
+                {% if todo.status != 'deleted' %}
+                    <input type="checkbox" name="todo" id="todo-{{ todo.id }}" value="{{ todo.data }}" {% if todo.status == 'completed' %} checked {% endif %}/>
+                    <label for="todo-{{ todo.id }}">{{ todo.data }}</label>
+                    <input type="button" value="delete" id="todo-{{ todo.id }}">
+                    <br>
+                {% endif %}
+            {% endfor %}
+        </div>
+
+        <div>
+            <textarea name="todo_data" id="todo_data"></textarea>
+            <button id="add_todo_btn">
+                <img src="/images/add.png" alt="add button" width="15" height="15">
+            </button>
+        </div>
+    </div>
+</body>
+</html>
