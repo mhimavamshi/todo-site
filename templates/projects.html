@@ -16,11 +16,18 @@
     <div class="projects">
         <ul>
             {% for project in projects %}
-                <li>
-                    <p><b>Title</b>: <a href=" {{ url_for('project', id=project.id) }} ">{{ project.title }}</a></p>
-                    <p><b>Notes</b>: {{ project.notes }}</p>
-                    <input type="button" value="Delete" id="delete_project_btn" project-id="{{ project.id }}">
-                    <input type="button" value="Update" id="update_project_btn" project-id="{{ project.id }}"> 
+                <li data-project-id="{{ project.id }}">
+                    <a href=" {{ url_for('project', id=project.id) }} ">Go to Project</a>
+                    <p>
+                        <b>Title</b>: 
+                        <p contenteditable="true" id="title">{{ project.title }}</p>
+                    </p> 
+                    <p>
+                        <b>Notes</b>: 
+                        <p contenteditable="true" id="notes">{{ project.notes }}</p>
+                    </p>
+                    <input type="button" value="Delete" id="delete_project_btn">
+                    <input type="button" value="Update" id="update_project_btn"> 
                 </li>
             {% endfor %}
         </ul>
@@ -29,22 +36,74 @@
 
 </body>
 <script type="module">
-    import { delete_project } from "/js/API.mjs";
+    import { delete_project, update_project } from "/js/API.mjs";
 
+    let projects = document.querySelectorAll("li");
 
-    document.querySelectorAll("#delete_project_btn").forEach(button => {
-        var project_id = button.getAttribute("project-id");
-        button.onclick = async () => {
+    let initial_state = {};
+    let changed = {};
+
+    projects.forEach((project)=>{
+        let project_id = project.getAttribute("data-project-id");
+
+        project.querySelector("#delete_project_btn").onclick = async () => {
             let success = await delete_project(project_id);
             if(success) {
-                window.location.reload();
+                project.remove();
             } else {
                 alert("Delete failed! :(");
             }
         }
+
+        project.querySelector("#update_project_btn").onclick = async () => {
+            let data = get_update_data(project_id);
+            if(data == null) console.log("no new data.");
+            let success = await update_project(data);
+            if(success) {
+                window.location.reload();
+            } else {
+                alert("Update failed! :(");
+            }
+        }
+
+        let title = project.querySelector("#title");
+        let notes = project.querySelector("#notes");
+
+        initial_state[project_id] = {"title": title.textContent, "notes": notes.textContent}
+
+        title.addEventListener('blur', (event) => {
+            console.log('Content finalized:', title.textContent);
+            update_state(project_id, "title", title.textContent)
+        });
+
+
+        notes.addEventListener('blur', (event) => {
+            console.log('Content finalized:', notes.textContent);
+            update_state(project_id, "notes", notes.textContent)
+        });
+
     });
 
+    console.log(initial_state)
 
+
+    function get_update_data(project_id) {
+        if(project_id in changed) {
+            return {...changed[project_id], id: project_id};
+        }
+        return null;
+    }
+
+    function update_state(project_id, key, value) {
+        console.log(`updating ${project_id} with ${key} and ${value}`);
+        let data = initial_state[project_id];
+        if(data[key] != value) {
+            console.log(key);
+            project_id in changed ? changed[project_id][key] = value : changed[project_id] = {[key]: value};
+        } else {
+            project_id in changed ? delete changed[project_id][key] : undefined;
+        }
+    }
 
 </script>
 </html> 
