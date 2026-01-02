@@ -13,6 +13,7 @@
         <p><b><label for="notes-{{ project.id }}">Notes:</label></b></p>
         <!-- <textarea name="notes" id="notes-{{ project.id }}" rows="10" cols="50">{{ project.notes }}</textarea> -->
         <p name="name" id="notes-{{ project.id }}" contenteditable="true">{{ project.notes }}</p>
+        <b><p>Todos:</p></b>
         <div class="todos">
             {% for todo in todos %}
                 {% if todo.status != 'deleted' %}
