@@ -21,9 +21,10 @@ AsyncSessionLocal = sessionmaker(engine, class_=AsyncSession, expire_on_commit=F
 Base = declarative_base()
 
 
-async def enable_foreign_keys():
+async def pragmas():
     async with engine.connect() as conn:
         await conn.execute(text("PRAGMA foreign_keys = ON"))
+        await conn.execute(text("PRAGMA journal_mode = WAL"))
         await conn.commit()
 
 
@@ -37,7 +38,7 @@ async def enable_foreign_keys():
 
 
 async def get_session() -> AsyncSession:
-    await enable_foreign_keys()
+    await pragmas()
     async with AsyncSessionLocal() as session:
         yield session
 
